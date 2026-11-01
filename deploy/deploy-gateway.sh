@@ -58,7 +58,7 @@ with tarfile.open(sys.argv[1],"r:gz") as archive:
     rollback() {
       echo 'Health check failed; restoring the previous release.' >&2
       if [[ -n "$PREVIOUS" && -f "$PREVIOUS/deploy/compose.prod.yaml" ]]; then
-        if [[ -f "$ROOT/shared/runtime.env.previous" ]]; then cp "$ROOT/shared/runtime.env.previous" "$ROOT/shared/runtime.env"; fi
+        if [[ -f "$ROOT/shared/$(basename "$PREVIOUS").env" ]]; then cp "$ROOT/shared/$(basename "$PREVIOUS").env" "$ROOT/shared/runtime.env"; fi
         RELEASE_ID=$(basename "$PREVIOUS") docker compose -p loy-krathong-live -f "$PREVIOUS/deploy/compose.prod.yaml" up -d --wait --wait-timeout 120
       else
         docker compose -p loy-krathong-live -f "$DEST/deploy/compose.prod.yaml" down
@@ -67,6 +67,7 @@ with tarfile.open(sys.argv[1],"r:gz") as archive:
     }
     if ! docker compose -p loy-krathong-live -f "$DEST/deploy/compose.prod.yaml" up -d --wait --wait-timeout 120; then rollback; fi
     if ! curl --fail --silent --max-time 15 http://127.0.0.1:4310/api/state > /dev/null; then rollback; fi
+    cp "$ROOT/shared/runtime.env" "$ROOT/shared/$SHA.env"
     ln -sfn "$DEST" "$ROOT/current"
     echo "Deployed $SHA (127.0.0.1:4310)."
     ;;
