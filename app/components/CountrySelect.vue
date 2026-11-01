@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { t, countryName } = useAppI18n()
 import { ChevronDown, Check } from 'lucide-vue-next'
 import { countries } from '#shared/countries'
 const props=withDefaults(defineProps<{modelValue:string;id?:string}>(),{id:'country'})
@@ -19,4 +20,4 @@ async function onKey(event:KeyboardEvent){
 function outside(event:PointerEvent){if(!root.value?.contains(event.target as Node))open.value=false}
 onMounted(()=>document.addEventListener('pointerdown',outside));onBeforeUnmount(()=>document.removeEventListener('pointerdown',outside))
 </script>
-<template><div ref="root" class="country-picker" @keydown="onKey"><button :id="id" ref="trigger" type="button" class="country-trigger" aria-haspopup="listbox" :aria-expanded="open" :aria-controls="listId" @click="toggle"><CountryFlag :code="selected.code"/><span>{{selected.name}}</span><ChevronDown :size="16"/></button><div v-if="open" :id="listId" class="country-options" role="listbox" aria-label="เลือกประเทศหรืออาเซียน"><button v-for="option in countries" :key="option.code" type="button" role="option" tabindex="-1" :aria-selected="modelValue===option.code" @click="choose(option.code)"><CountryFlag :code="option.code"/><span>{{option.name}}</span><Check v-if="modelValue===option.code" :size="15"/></button></div></div></template>
+<template><div ref="root" class="country-picker" @keydown="onKey"><button :id="id" ref="trigger" type="button" class="country-trigger" aria-haspopup="listbox" :aria-expanded="open" :aria-controls="listId" @click="toggle"><CountryFlag :code="selected.code"/><span>{{countryName(selected.name)}}</span><ChevronDown :size="16"/></button><div v-if="open" :id="listId" class="country-options" role="listbox" :aria-label="t('เลือกประเทศหรืออาเซียน')"><button v-for="option in countries" :key="option.code" type="button" role="option" tabindex="-1" :aria-selected="modelValue===option.code" @click="choose(option.code)"><CountryFlag :code="option.code"/><span>{{countryName(option.name)}}</span><Check v-if="modelValue===option.code" :size="15"/></button></div></div></template>

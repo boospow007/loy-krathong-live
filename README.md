@@ -108,3 +108,11 @@ RELEASE_ID=$(basename "$PWD") docker compose -p loy-krathong-live -f deploy/comp
 ```
 
 DNS ฟรีใช้ [sslip.io](https://sslip.io/) ชี้ hostname ที่ฝัง IP มายัง server โดยไม่ต้องซื้อโดเมน URL นี้ใช้ได้ตราบใดที่ server IP และผู้ให้บริการ DNS ยังทำงาน
+
+## Languages
+
+The UI supports **English (default)** and **Thai**. Use the EN / ไทย switch on the guest page, organizer page, live-display controls, or print toolbar. The choice is remembered for one year in the `khuen-chan-language` cookie and is respected during server rendering; a new visitor always starts in English.
+
+Switching languages does not reset the current krathong, guest name, country or wish. Country names, base/flower names, buttons, validation errors, admin controls, QR cards and page metadata follow the selected language. Guest names and wishes are displayed exactly as submitted. Custom event titles/messages remain as written; only the built-in default event copy is localized.
+
+Translations and country-label formatting live in `shared/i18n.ts`; locale state and cookie handling live in `app/composables/useAppI18n.ts`. The language preference is separate from the shared event settings, so a guest changing their language does not change the language on the event screen.
