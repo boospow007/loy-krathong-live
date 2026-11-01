@@ -1,0 +1,31 @@
+{
+  "name": "loy-krathong-live",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun scripts/run.ts",
+    "dev:web": "nuxt dev --host 0.0.0.0",
+    "dev:api": "bun --watch api/main.ts",
+    "build": "nuxt build",
+    "start": "bun scripts/run.ts start",
+    "start:web": "node .output/server/index.mjs",
+    "start:api": "bun api/main.ts",
+    "typecheck": "nuxt typecheck && tsc -p api/tsconfig.json",
+    "test": "bun test",
+    "build:api": "bun build api/main.ts --target bun --outfile dist/api.mjs"
+  },
+  "dependencies": {
+    "elysia": "^1.4.0",
+    "lucide-vue-next": "^0.468.0",
+    "mongodb": "^7.8.0",
+    "nuxt": "^4.0.0",
+    "qrcode": "^1.5.4",
+    "vue": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/qrcode": "^1.5.5",
+    "typescript": "^5.9.0",
+    "vue-tsc": "^3.0.0"
+  }
+}
