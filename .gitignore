@@ -157,3 +157,5 @@ node_modules
 
 .data/
 release.tar.gz
+
+.secrets/

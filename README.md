@@ -91,7 +91,7 @@ Pipeline ใช้ Node 22 + Bun 1.3.14, MongoDB service สำหรับ test
 - Server path: `/opt/loy-krathong-live`; compiled releases อยู่ `releases/<commit-sha>` และ `current` ชี้รุ่นที่ผ่าน health check แล้ว
 - Runtime secrets: `/opt/loy-krathong-live/shared/runtime.env` mode 600; ไม่มี secrets ใน Git หรือ release archive
 - CI SSH key ใน root ถูกจำกัดด้วย `restrict,command=.../deploy-gateway.sh` ใช้ได้เฉพาะ `configure` และ `deploy <sha>` เปิด shell/forwarding ไม่ได้
-- รหัสแอดมิน production สุ่มแยกจากรหัส SSH และ development; ดูในไฟล์ `.env.production.local` บนเครื่องผู้พัฒนา (ถูก ignore) หรือ server runtime env ผ่านสิทธิ์ root
+- รหัสแอดมิน production สุ่มแยกจากรหัส SSH และ development; ดูในไฟล์ `.secrets/production-admin.env` บนเครื่องผู้พัฒนา (ถูก ignore) หรือ server runtime env ผ่านสิทธิ์ root
 - Deploy ล้มเหลวระหว่าง health check จะคืน container รุ่นก่อนและ runtime env ก่อนหน้า ไม่ restart container/service ของโปรเจกต์อื่น
 - กำหนด memory limit 256 MB ต่อ container และ CPU limit 0.35 ต่อ containerสำหรับเครื่องที่มีหลายงาน
 - S3/Spaces credentials เก็บใน Actions secrets และ runtime env พร้อมใช้ ฟีเจอร์ปัจจุบันเป็น SVG จึงยังไม่มีการอัปโหลดไฟล์หรือแก้ไข bucket เดิม
