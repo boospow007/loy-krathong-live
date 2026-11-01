@@ -3,7 +3,8 @@ import { bases, flowers } from '#shared/models'
 import { countries } from '#shared/countries'
 const props=withDefaults(defineProps<{base?:number;flower?:number;country?:string;bare?:boolean}>(),{base:0,flower:0,country:'',bare:false})
 const b=computed(()=>bases[props.base]||bases[0]); const f=computed(()=>flowers[props.flower]||flowers[0])
-const flag=computed(()=>countries.find(c=>c.code===props.country)?.flag)
+const countryOption=computed(()=>countries.find(c=>c.code===props.country))
+const flag=computed(()=>countryOption.value?.flag)
 const r=(n:number)=>Number(n.toFixed(3))
 const petals=computed(()=>props.base===2?16:props.base===4?10:12)
 </script>
@@ -39,6 +40,6 @@ const petals=computed(()=>props.base===2?16:props.base===4?10:12)
     <ellipse class="flame-glow" cx="134" cy="66" rx="20" ry="28" fill="#ffc15b" opacity=".14"/>
     <path class="flame" d="M134 78Q118 68 134 44Q151 67 134 78Z" fill="#f5b94e"/><path class="flame" d="M134 75Q127 67 134 56Q142 69 134 75Z" fill="#fff7c7"/>
   </template>
-  <g v-if="flag&&!bare"><path d="M197 146L191 81" stroke="#d5b56d" stroke-width="2"/><text x="190" y="100" font-size="26">{{flag}}</text></g>
+  <g v-if="countryOption&&!bare" role="img" :aria-label="`ธง${countryOption.name}`"><path d="M197 146L191 81" stroke="#d5b56d" stroke-width="2"/><image v-if="countryOption.flagImage" :href="countryOption.flagImage" x="191" y="81" width="39" height="26" preserveAspectRatio="xMidYMid meet"/><text v-else x="190" y="100" font-size="26">{{flag}}</text></g>
 </svg>
 </template>

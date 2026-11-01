@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ArrowUpRight, ArrowRight, ArrowLeft, Check, Sparkles, Send, Radio, RotateCcw, Monitor, Leaf } from 'lucide-vue-next'
 import { bases, flowers } from '#shared/models'
-import { countries } from '#shared/countries'
 const {state,connected,loaded}=useLive()
 const step=ref(1);const base=ref(0);const flower=ref(0);const name=ref('');const wish=ref('');const country=ref('TH');const sending=ref(false);const sent=ref(false);const pending=ref(false);const error=ref('');let submissionId=''
 const titles=['เลือกฐานที่เป็นคุณ','เติมสีสันให้คำอธิษฐาน','ฝากความหวังไว้กับสายน้ำ']
@@ -29,7 +28,7 @@ useHead({title:'สร้างกระทงของคุณ • คืน�
 <div v-if="step<3" class="choice-grid"><button v-for="(item,i) in (step===1?bases:flowers)" :key="`${step}-${i}`" class="choice-card" :class="{selected:(step===1?base:flower)===i}" :aria-pressed="(step===1?base:flower)===i" @click="step===1?base=i:flower=i"><span class="selection-check"><Check :size="12"/></span><KrathongArt :base="step===1?i:base" :flower="step===1?0:i" :bare="step===1"/><strong>{{item.name}}</strong><small>{{item.story}}</small></button></div>
 <form v-else id="wish-form" class="wish-form" @submit.prevent="submit">
 <label for="guest-name">ชื่อของคุณ <span>*</span><span class="field-count">{{name.length}}/40</span></label><input id="guest-name" v-model="name" required maxlength="40" placeholder="อยากให้เรียกคุณว่าอะไร" autocomplete="given-name"/>
-<label for="country">ประเทศ / Country</label><select id="country" v-model="country"><option v-for="c in countries" :key="c.code" :value="c.code">{{c.flag}} {{c.name}}</option></select>
+<label for="country">ประเทศ / Country</label><CountrySelect id="country" v-model="country"/>
 <label for="wish">คำอธิษฐานของคุณ <span class="optional">(ไม่บังคับ)</span><span class="field-count">{{wish.length}}/160</span></label><textarea id="wish" v-model="wish" maxlength="160" rows="3" placeholder="ขอให้ค่ำคืนนี้เป็นจุดเริ่มต้นของสิ่งดี ๆ…"/>
 <p class="privacy-note">ชื่อ ประเทศ และคำอวยพรจะแสดงบนจอในงาน<br/>กรุณาใช้ถ้อยคำสุภาพ และหลีกเลี่ยงข้อมูลส่วนตัว</p>
 </form>
