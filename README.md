@@ -116,3 +116,9 @@ The UI supports **English (default)** and **Thai**. Use the EN / ไทย switc
 Switching languages does not reset the current krathong, guest name, country or wish. Country names, base/flower names, buttons, validation errors, admin controls, QR cards and page metadata follow the selected language. Guest names and wishes are displayed exactly as submitted. Custom event titles/messages remain as written; only the built-in default event copy is localized.
 
 Translations and country-label formatting live in `shared/i18n.ts`; locale state and cookie handling live in `app/composables/useAppI18n.ts`. The language preference is separate from the shared event settings, so a guest changing their language does not change the language on the event screen.
+
+## Natural Thai krathong artwork
+
+All six bases and six flower arrangements now use new photographic-style transparent assets inspired by real Thai banana-leaf craft. Five bases show different green leaf folds and one uses a natural coconut shell. The six floral inserts combine with every base (36 combinations); the front leaf layer covers the lower flowers so the arrangement sits inside the rim. Numeric base/flower IDs stay unchanged for existing submissions.
+
+Production assets: `public/krathongs/natural-v1/`. Research references, the built-in imagegen prompt set, asset names and normalization workflow are documented in [docs/krathong-art-direction.md](docs/krathong-art-direction.md). All 12 images are local, optimized transparent WebP; no external image service is needed during the event. The versioned asset directory is cached immutably — use a new version directory for future artwork replacements.

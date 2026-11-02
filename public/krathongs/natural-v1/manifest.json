@@ -1,0 +1,98 @@
+[
+  {
+    "kind": "base",
+    "index": 0,
+    "src": "/krathongs/natural-v1/base-0.webp",
+    "width": 960,
+    "height": 614,
+    "bytes": 141882
+  },
+  {
+    "kind": "base",
+    "index": 1,
+    "src": "/krathongs/natural-v1/base-1.webp",
+    "width": 960,
+    "height": 601,
+    "bytes": 220224
+  },
+  {
+    "kind": "base",
+    "index": 2,
+    "src": "/krathongs/natural-v1/base-2.webp",
+    "width": 960,
+    "height": 586,
+    "bytes": 170730
+  },
+  {
+    "kind": "base",
+    "index": 3,
+    "src": "/krathongs/natural-v1/base-3.webp",
+    "width": 960,
+    "height": 557,
+    "bytes": 159380
+  },
+  {
+    "kind": "base",
+    "index": 4,
+    "src": "/krathongs/natural-v1/base-4.webp",
+    "width": 960,
+    "height": 580,
+    "bytes": 131182
+  },
+  {
+    "kind": "base",
+    "index": 5,
+    "src": "/krathongs/natural-v1/base-5.webp",
+    "width": 960,
+    "height": 589,
+    "bytes": 153908
+  },
+  {
+    "kind": "flower",
+    "index": 0,
+    "src": "/krathongs/natural-v1/flower-0.webp",
+    "width": 960,
+    "height": 566,
+    "bytes": 139310
+  },
+  {
+    "kind": "flower",
+    "index": 1,
+    "src": "/krathongs/natural-v1/flower-1.webp",
+    "width": 960,
+    "height": 443,
+    "bytes": 130364
+  },
+  {
+    "kind": "flower",
+    "index": 2,
+    "src": "/krathongs/natural-v1/flower-2.webp",
+    "width": 960,
+    "height": 587,
+    "bytes": 177300
+  },
+  {
+    "kind": "flower",
+    "index": 3,
+    "src": "/krathongs/natural-v1/flower-3.webp",
+    "width": 960,
+    "height": 515,
+    "bytes": 143046
+  },
+  {
+    "kind": "flower",
+    "index": 4,
+    "src": "/krathongs/natural-v1/flower-4.webp",
+    "width": 960,
+    "height": 451,
+    "bytes": 169438
+  },
+  {
+    "kind": "flower",
+    "index": 5,
+    "src": "/krathongs/natural-v1/flower-5.webp",
+    "width": 960,
+    "height": 500,
+    "bytes": 156670
+  }
+]

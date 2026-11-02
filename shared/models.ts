@@ -1,18 +1,18 @@
 export const bases = [
-  { name: 'ใบตองแก้ว', story: 'ความเรียบง่ายที่งดงาม', color: '#388466', edge: '#92c58c' },
-  { name: 'บัวมรกต', story: 'ผลิบานรับสิ่งดี ๆ', color: '#277f80', edge: '#80d2b2' },
-  { name: 'จันทร์สาน', story: 'สานต่อทุกความหวัง', color: '#a77c42', edge: '#e9c887' },
-  { name: 'มงกุฎนที', story: 'สง่างามเหนือสายน้ำ', color: '#405b89', edge: '#a6b9dc' },
-  { name: 'พิกุลทอง', story: 'เปล่งประกายความสุข', color: '#aa8033', edge: '#f1d27c' },
-  { name: 'บัวแสงจันทร์', story: 'อ่อนโยนดั่งแสงจันทร์', color: '#92728e', edge: '#e4bbd3' }
+  { name: 'กลีบเล็บครุฑ', story: 'กลีบแหลมซ้อนสองชั้นจากใบตองสด', color: '#435d2f', edge: '#92a46c' },
+  { name: 'กะลามะพร้าว', story: 'กะลาสีน้ำตาลธรรมชาติรองด้วยใบตอง', color: '#725238', edge: '#b39a70' },
+  { name: 'กลีบกุหลาบ', story: 'พับกลีบใบตองเล็กเรียงแน่นเป็นชั้น', color: '#466138', edge: '#a3ae7d' },
+  { name: 'กลีบหัวขวาน', story: 'กลีบเฉียงสับหว่างตามงานฝีมือไทย', color: '#3d572d', edge: '#91a571' },
+  { name: 'บัวสายใบตอง', story: 'กลีบบัวแผ่รอบฐานหยวกกล้วย', color: '#536637', edge: '#a7b782' },
+  { name: 'กลีบพัด', story: 'จับจีบใบตองเป็นพัดเล็กสองชั้น', color: '#425e34', edge: '#97ad77' }
 ] as const
 export const flowers = [
-  { name: 'บัวชมพู', story: 'ความสงบในหัวใจ', color: '#e998b0', inner: '#ffe2e3', kind: 'lotus' },
-  { name: 'มะลิจันทร์', story: 'รักที่บริสุทธิ์', color: '#e5ecdb', inner: '#fffbed', kind: 'jasmine' },
-  { name: 'ดาวเรือง', story: 'รุ่งเรืองและสดใส', color: '#e5a126', inner: '#ffe289', kind: 'marigold' },
-  { name: 'กล้วยไม้ม่วง', story: 'มิตรภาพที่ยืนยาว', color: '#b59ad8', inner: '#ecddff', kind: 'orchid' },
-  { name: 'กุหลาบราตรี', story: 'ความรักและความปรารถนาดี', color: '#c25877', inner: '#f1a8b6', kind: 'rose' },
-  { name: 'บุปผารวมใจ', story: 'ทุกความสุขมารวมกัน', color: '#edbc77', inner: '#fff2d9', kind: 'mixed' }
+  { name: 'บัวชมพู', story: 'ดอกบัวชมพูอ่อนแซมมะลิขาว', color: '#c69295', inner: '#f0e0d4', kind: 'lotus' },
+  { name: 'มะลิขาว', story: 'มะลิตูมสีขาวนวลหอมละมุน', color: '#e1deca', inner: '#f5f1dd', kind: 'jasmine' },
+  { name: 'ดาวเรือง', story: 'ดาวเรืองสีเหลืองทองจากกลีบสด', color: '#c69732', inner: '#e5c36b', kind: 'marigold' },
+  { name: 'กล้วยไม้ม่วง', story: 'กล้วยไม้หวายม่วงแซมมะลิ', color: '#956185', inner: '#dbc5ce', kind: 'orchid' },
+  { name: 'บานไม่รู้โรย', story: 'ดอกเล็กสีม่วงอมชมพูเรียงชิดกัน', color: '#954c75', inner: '#c78ca5', kind: 'amaranth' },
+  { name: 'บุปผารวมใจ', story: 'ดาวเรือง มะลิ และบานไม่รู้โรย', color: '#c6a052', inner: '#e7d9b6', kind: 'mixed' }
 ] as const
 export interface Krathong { id: string; country: string; base: number; flower: number; name: string; wish: string; createdAt: number; status: 'approved' | 'pending' }
 export interface Settings { title: string; subtitle: string; size: number; speed: number; sceneSpeed: number; waterSpeed: number; brightness: number; maxVisible: number; showNames: boolean; showWishes: boolean; showQr: boolean; paused: boolean; accepting: boolean; moderation: boolean; guestUrl: string }
