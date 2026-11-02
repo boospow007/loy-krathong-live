@@ -54,7 +54,9 @@ Flower-specific prompts:
 
 ## Integration
 
-`KrathongArt.vue` layers the leaf photograph, slender beeswax candle and incense, flower photograph, and the same base's foreground folds. The foreground clipping makes the floral insert sit inside the rim. The country flag remains a separate layer. SVG IDs come from Vue `useId()` so repeated boats have independent clipping/gradient references and stable server/client markup.
+`KrathongArt.vue` layers the leaf photograph, slender beeswax candle and incense, flower photograph, and the same base's foreground folds. `shared/krathong-layout.ts` defines a separate flower seat and traced front-rim path for each base. Flowers retain their original aspect ratio and fit within that seat; a luminance mask hides them behind the photographed front rim, including its curved lip and individual leaf folds. The country flag remains a separate layer, with its pole also behind the front rim. SVG IDs come from Vue `useId()` so repeated boats have independent clipping/gradient references and stable server/client markup.
+
+The original shared flower size and horizontal foreground cutoff allowed the coconut/amaranth arrangement to overlap the front lip. The calibrated layout was checked at enlarged size for all 36 base/flower pairs, six arrangements per base. Keep the paths paired with these immutable image dimensions; changing an asset's crop requires recalibration.
 
 The base picker uses a tighter viewBox for legible fold details. English and Thai names/descriptions match the new designs. The live river, guest preview, flower picker, admin preview, moderation list and printable QR card all use the same component.
 
