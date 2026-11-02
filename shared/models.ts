@@ -15,6 +15,6 @@ export const flowers = [
   { name: 'บุปผารวมใจ', story: 'ดาวเรือง มะลิ และบานไม่รู้โรย', color: '#c6a052', inner: '#e7d9b6', kind: 'mixed' }
 ] as const
 export interface Krathong { id: string; country: string; base: number; flower: number; name: string; wish: string; createdAt: number; status: 'approved' | 'pending' }
-export interface Settings { title: string; subtitle: string; size: number; speed: number; sceneSpeed: number; waterSpeed: number; brightness: number; maxVisible: number; showNames: boolean; showWishes: boolean; showQr: boolean; paused: boolean; accepting: boolean; moderation: boolean; guestUrl: string }
-export const defaults: Settings = { title: 'คืนจันทร์ ริมสายน้ำ', subtitle: 'ให้สายน้ำพาคำอธิษฐานของเราไปด้วยกัน', size: 1, speed: 1, sceneSpeed: 1, waterSpeed: 1, brightness: 1, maxVisible: 36, showNames: true, showWishes: true, showQr: true, paused: false, accepting: true, moderation: false, guestUrl: '' }
+export interface Settings { title: string; subtitle: string; size: number; speed: number; sceneSpeed: number; waterSpeed: number; brightness: number; maxVisible: number; showNames: boolean; showWishes: boolean; showQr: boolean; showMemorial: boolean; paused: boolean; accepting: boolean; moderation: boolean; guestUrl: string }
+export const defaults: Settings = { title: 'คืนจันทร์ ริมสายน้ำ', subtitle: 'ให้สายน้ำพาคำอธิษฐานของเราไปด้วยกัน', size: 1, speed: 1, sceneSpeed: 1, waterSpeed: 1, brightness: 1, maxVisible: 36, showNames: true, showWishes: true, showQr: true, showMemorial: false, paused: false, accepting: true, moderation: false, guestUrl: '' }
 export interface LiveState { settings: Settings; krathongs: Krathong[]; total: number; revision: number }

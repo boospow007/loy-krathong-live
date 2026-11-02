@@ -10,8 +10,9 @@ function hideControls(){controls.value=true;clearTimeout(timer);timer=setTimeout
 async function toggleFull(){try{document.fullscreenElement?await document.exitFullscreen():await document.documentElement.requestFullscreen()}catch{}}
 useHead(()=>({title:t('สายน้ำแห่งคำอธิษฐาน • คืนจันทร์')}))
 </script>
-<template><main class="display-page" @mousemove="hideControls" @touchstart="hideControls">
-<RiverScene :settings="state.settings" :krathongs="state.krathongs"/>
+<template><main class="display-page" :class="{'memorial-active':state.settings.showMemorial}" @mousemove="hideControls" @touchstart="hideControls">
+<RiverScene v-show="!state.settings.showMemorial" :settings="state.settings" :krathongs="state.krathongs"/>
+<MemorialScreen v-show="state.settings.showMemorial"/>
 <div class="display-brand"><BrandMark/><span class="display-live"><i class="status-dot" :class="{'offline':!connected}"/>{{t(connected?'LIVE RIVER':'กำลังเชื่อมต่อใหม่')}}</span></div>
 <div class="display-heading"><p class="eyebrow">A THOUSAND WISHES. ONE RIVER.</p><h1>{{eventText(state.settings.title, 'title')}}</h1><p>{{eventText(state.settings.subtitle, 'subtitle')}}</p><span class="wish-counter">{{state.total.toLocaleString()}} <small>{{t('คำอธิษฐานร่วมกัน')}}</small></span></div>
 <div v-if="state.settings.showQr&&guestUrl" class="display-qr"><div class="qr-wrap"><QrCode :value="guestUrl" :size="136"/></div><div><span class="eyebrow">MAKE A WISH</span><h3>{{t('สแกน แล้วลอยด้วยกัน')}}</h3><p>{{t('สร้างกระทงของคุณ')}}<br/>{{t('ให้ส่องประกายบนสายน้ำ')}}</p></div></div>

@@ -109,6 +109,10 @@ RELEASE_ID=$(basename "$PWD") docker compose -p loy-krathong-live -f deploy/comp
 
 DNS ฟรีใช้ [sslip.io](https://sslip.io/) ชี้ hostname ที่ฝัง IP มายัง server โดยไม่ต้องซื้อโดเมน URL นี้ใช้ได้ตราบใดที่ server IP และผู้ให้บริการ DNS ยังทำงาน
 
+## Remembrance display
+
+The organizer's display settings include a **Show remembrance image fullscreen** switch (แสดงภาพถวายอาลัยเต็มจอ), above the setting tabs. It replaces the `/display` scene with the supplied `public/display/remembrance-v1.jpg` image in realtime and in the admin preview. Switch it off to return to the river. The image keeps its full proportions with black margins on screens other than 16:9; the original artwork is not cropped. The switch defaults to off, persists in MongoDB and applies to newly opened/reconnected displays. Guest submissions continue according to the existing event settings.
+
 ## Languages
 
 The UI supports **English (default)** and **Thai**. Use the EN / ไทย switch on the guest page, organizer page, live-display controls, or print toolbar. The choice is remembered for one year in the `khuen-chan-language` cookie and is respected during server rendering; a new visitor always starts in English.
