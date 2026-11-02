@@ -1,6 +1,6 @@
 import { expect, test } from 'bun:test'
 import manifest from '../public/krathongs/natural-v1/manifest.json'
-import { baseSeats, flowerSizes, getKrathongLayout } from '../shared/krathong-layout'
+import { arrangementSeats, baseSeats, flowerSizes, getKrathongLayout } from '../shared/krathong-layout'
 
 test('rim calibration matches the immutable artwork dimensions', () => {
   for (const asset of manifest) {
@@ -12,7 +12,9 @@ test('rim calibration matches the immutable artwork dimensions', () => {
 })
 
 test('all 36 arrangements fit their base seat without distorting the flowers', () => {
+  expect(arrangementSeats).toHaveLength(baseSeats.length)
   for (let base = 0; base < 6; base++) {
+    expect(arrangementSeats[base]).toHaveLength(flowerSizes.length)
     for (let flower = 0; flower < 6; flower++) {
       const { image, flowers, pocket } = getKrathongLayout(base, flower)
       const source = flowerSizes[flower]!
