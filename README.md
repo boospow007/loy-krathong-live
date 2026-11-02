@@ -126,3 +126,11 @@ Translations and country-label formatting live in `shared/i18n.ts`; locale state
 All six bases and six flower arrangements now use new photographic-style transparent assets inspired by real Thai banana-leaf craft. Five bases show different green leaf folds and one uses a natural coconut shell. The six floral inserts combine with every base (36 combinations); the front leaf layer covers the lower flowers so the arrangement sits inside the rim. Numeric base/flower IDs stay unchanged for existing submissions.
 
 Production assets: `public/krathongs/natural-v1/`. Research references, the built-in imagegen prompt set, asset names and normalization workflow are documented in [docs/krathong-art-direction.md](docs/krathong-art-direction.md). All 12 images are local, optimized transparent WebP; no external image service is needed during the event. The versioned asset directory is cached immutably — use a new version directory for future artwork replacements.
+
+## Ayutthaya scene and live arrangement editor
+
+The event display now has separate moon, Ayutthaya prang, three chedis, riverbank trees, mist and moon-reflection layers, with animated water and architectural reflections. In **Admin → Event display preview → Arrange scene**, drag any visible layer or use its corner handle to resize it. The element selector can recover hidden/off-canvas layers. X/Y, width, rotation, opacity, visibility and layer order are individually editable. Drag the waterline or select it to adjust its level. Arrow keys nudge a selected layer; Shift moves it 5%. The expand button opens a larger workspace, and Restore default scene resets only the composition.
+
+Changes save during interaction, propagate over SSE, and persist in MongoDB. Existing events receive default scene settings; older clients updating other settings preserve the saved scene. Scene speed controls clouds/mist, water speed controls ripples/reflections, and Pause motion freezes both. The existing remembrance-image switch remains available.
+
+The three original generated images and their prompts, reference links, coordinates and asset preparation are documented in [docs/ayutthaya-scene.md](docs/ayutthaya-scene.md). Production files are versioned in `public/scene/ayutthaya-v1/`; regenerate with `node scripts/prepare-scene-art.mjs` using the local ignored PNG originals.

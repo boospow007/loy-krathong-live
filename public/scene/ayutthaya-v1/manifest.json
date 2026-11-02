@@ -1,0 +1,23 @@
+[
+  {
+    "name": "moon",
+    "width": 720,
+    "height": 717,
+    "bytes": 154524,
+    "src": "/scene/ayutthaya-v1/moon.webp"
+  },
+  {
+    "name": "prang",
+    "width": 1600,
+    "height": 690,
+    "bytes": 307572,
+    "src": "/scene/ayutthaya-v1/prang.webp"
+  },
+  {
+    "name": "chedis",
+    "width": 1600,
+    "height": 673,
+    "bytes": 284496,
+    "src": "/scene/ayutthaya-v1/chedis.webp"
+  }
+]

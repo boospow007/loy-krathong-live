@@ -22,3 +22,10 @@
 
 /* Fullscreen event image retains the complete artwork at every aspect ratio. */
 .display-page.memorial-active{min-height:0;background:#000}.memorial-active .display-brand,.memorial-active .display-heading,.memorial-active .display-qr,.memorial-active .river-empty,.memorial-active .display-bottom-note{display:none}.memorial-control{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px;border-bottom:1px solid var(--line);background:#142d34}.memorial-control label{margin:0;font-size:13px;color:var(--text)}.memorial-control p{margin:7px 0 0;max-width:340px;font-size:10px;line-height:1.7;color:var(--muted)}.memorial-control .toggle{flex-shrink:0}
+
+/* Keep the old-capital skyline below the event copy. */
+.display-heading{top:13%;left:6.5%;max-width:52%}.display-heading h1{font-size:clamp(26px,2.8vw,56px);line-height:1.5;margin:10px 0 8px}.display-heading>p:not(.eyebrow){margin-bottom:12px}.display-heading .wish-counter{font-size:20px}.display-qr{background:#081e2cd9;backdrop-filter:blur(6px)}@media(max-width:800px){.display-heading{top:15%;max-width:58%}.display-heading h1{font-size:clamp(20px,3.4vw,34px)}.display-heading .eyebrow{font-size:6px}}@media(max-width:440px){.display-heading{top:15%;max-width:85%}.display-heading h1{font-size:24px}.display-heading .wish-counter{font-size:16px}}
+
+.display-brand{flex-direction:row;align-items:center;gap:24px}.display-qr{gap:12px;padding:12px}.display-qr .qr-wrap img{width:112px;height:112px}.display-qr h3:lang(en){max-width:160px;font-size:14px}.display-qr p{font-size:10px}@media(max-width:800px){.display-brand{gap:12px}.display-qr .qr-wrap img{width:85px;height:85px}.display-qr h3:lang(en){max-width:120px;font-size:12px}}@media(max-width:440px){.display-brand{align-items:flex-start;flex-direction:column;gap:7px}.display-qr .qr-wrap img{width:64px;height:64px}.display-live{font-size:5px}.display-qr{padding:8px}}
+
+.scene-static .scene-mist-drift{animation-play-state:paused}

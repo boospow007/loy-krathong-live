@@ -2,6 +2,8 @@ import { Elysia, t } from 'elysia'
 import { createStore } from './store'
 import { countries } from '../shared/countries'
 import { defaults } from '../shared/models'
+const sceneObjectSchema = t.Object({x:t.Number({minimum:-50,maximum:150}),y:t.Number({minimum:-50,maximum:150}),width:t.Number({minimum:2,maximum:200}),rotation:t.Number({minimum:-180,maximum:180}),opacity:t.Number({minimum:0,maximum:1}),visible:t.Boolean(),z:t.Integer({minimum:1,maximum:20})})
+const sceneSchema = t.Object({riverY:t.Number({minimum:30,maximum:75}),elements:t.Object({moon:sceneObjectSchema,prang:sceneObjectSchema,chedis:sceneObjectSchema,treeline:sceneObjectSchema,mist:sceneObjectSchema,reflection:sceneObjectSchema})})
 const password = process.env.ADMIN_PASSWORD || (process.env.NODE_ENV === 'production' ? '' : 'loy-local-admin')
 if (!password || (process.env.NODE_ENV === 'production' && password.length < 12)) throw new Error('Set ADMIN_PASSWORD (at least 12 characters in production)')
 export const store = await createStore()
@@ -49,7 +51,7 @@ export const app = new Elysia({ prefix: '/api' })
   .guard({beforeHandle:({cookie,set})=>{if((sessions.get(String(cookie.admin?.value))||0)<Date.now()){set.status=401;return {error:'กรุณาเข้าสู่ระบบ'}}}},app=>app
     .get('/admin/state',async()=>({...await store.state(),krathongs:await store.list(true)}))
     .post('/logout',({cookie})=>{sessions.delete(String(cookie.admin?.value));cookie.admin!.remove();return {ok:true}})
-    .patch('/admin/settings',async({body})=>{await store.updateSettings({...defaults,...body});await broadcast();return store.state()}, {body:t.Object({title:t.String({minLength:1,maxLength:80}),subtitle:t.String({maxLength:140}),size:t.Number({minimum:.4,maximum:2}),speed:t.Number({minimum:.1,maximum:3}),sceneSpeed:t.Number({minimum:0,maximum:3}),waterSpeed:t.Number({minimum:.1,maximum:3}),brightness:t.Number({minimum:.3,maximum:1.5}),maxVisible:t.Integer({minimum:1,maximum:100}),showNames:t.Boolean(),showWishes:t.Boolean(),showQr:t.Boolean(),showMemorial:t.Optional(t.Boolean()),paused:t.Boolean(),accepting:t.Boolean(),moderation:t.Boolean(),guestUrl:t.String({maxLength:300,pattern:'^(https?://[^\\s]+)?$'})})})
+    .patch('/admin/settings',async({body})=>{await store.updateSettings({...defaults,...body,scene:body.scene ?? store.settings().scene});await broadcast();return store.state()}, {body:t.Object({title:t.String({minLength:1,maxLength:80}),subtitle:t.String({maxLength:140}),size:t.Number({minimum:.4,maximum:2}),speed:t.Number({minimum:.1,maximum:3}),sceneSpeed:t.Number({minimum:0,maximum:3}),waterSpeed:t.Number({minimum:.1,maximum:3}),brightness:t.Number({minimum:.3,maximum:1.5}),maxVisible:t.Integer({minimum:1,maximum:100}),showNames:t.Boolean(),showWishes:t.Boolean(),showQr:t.Boolean(),showMemorial:t.Optional(t.Boolean()),scene:t.Optional(sceneSchema),paused:t.Boolean(),accepting:t.Boolean(),moderation:t.Boolean(),guestUrl:t.String({maxLength:300,pattern:'^(https?://[^\\s]+)?$'})})})
     .patch('/admin/krathongs/:id',async({params,body,set})=>{if(!await store.moderate(params.id,body.status)){set.status=404;return {error:'ไม่พบกระทง'}}await broadcast();return {ok:true}},{body:t.Object({status:t.Union([t.Literal('approved'),t.Literal('deleted')])})})
     .delete('/admin/krathongs',async()=>{await store.clear();await broadcast();return {ok:true}})
   )

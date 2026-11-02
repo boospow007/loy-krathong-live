@@ -1,6 +1,6 @@
 import { defaults, type LiveState } from '#shared/models'
 export function useLive() {
-  const state = useState<LiveState>('live-state', () => ({settings:{...defaults},krathongs:[],total:0,revision:0}))
+  const state = useState<LiveState>('live-state', () => ({settings:structuredClone(defaults),krathongs:[],total:0,revision:0}))
   const connected = ref(false)
   const loaded = ref(false)
   let source: EventSource | undefined

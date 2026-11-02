@@ -39,6 +39,30 @@ test('remembrance switch persists, broadcasts both ways and preserves the river'
   expect((await request('/admin/settings','PATCH',legacySettings,true)).status).toBe(200)
   expect((await store.state()).settings.showMemorial).toBe(false)
 })
+test('scene layout persists, reaches subscribed displays and survives legacy setting writes',async()=>{
+  const scene=structuredClone(defaults.scene)
+  scene.elements.moon={...scene.elements.moon,x:58,y:27,width:17,rotation:-12,opacity:.7,z:8}
+  scene.elements.prang.visible=false;scene.riverY=61.5
+  const stream=await request('/events'),reader=stream.body!.getReader();await reader.read()
+  const next=reader.read()
+  const response=await request('/admin/settings','PATCH',{...defaults,scene},true)
+  expect(response.status).toBe(200)
+  expect((await response.json()).settings.scene).toEqual(scene)
+  expect(JSON.parse(new TextDecoder().decode((await next).value).split('data: ')[1]!.trim()).settings.scene).toEqual(scene)
+  const {createStore}=await import('../api/store')
+  const reloaded=await createStore(process.env.MONGODB_URI,process.env.MONGODB_DATABASE)
+  try{expect(reloaded.settings().scene).toEqual(scene)}finally{await reloaded.client.close()}
+  const {scene:ignored,...legacy}=defaults
+  expect((await request('/admin/settings','PATCH',{...legacy,speed:1.2},true)).status).toBe(200)
+  expect((await store.state()).settings.scene).toEqual(scene)
+  const revision=(await store.state()).revision
+  for(const invalid of [{...scene,riverY:0},{...scene,elements:{...scene.elements,moon:{...scene.elements.moon,width:0}}},{...scene,elements:{moon:scene.elements.moon}}]){
+    expect((await request('/admin/settings','PATCH',{...defaults,scene:invalid},true)).status).toBe(422)
+  }
+  expect((await store.state()).revision).toBe(revision)
+  await reader.cancel()
+  expect((await request('/admin/settings','PATCH',defaults,true)).status).toBe(200)
+})
 test('Japan and ASEAN selections persist and reach the public display',async()=>{for(const country of ['JP','ASEAN']){const b={...boat(),country};expect((await request('/krathongs','POST',b)).status).toBe(201);const state=await (await request('/state')).json();expect(state.krathongs.find((k:any)=>k.id===b.id)?.country).toBe(country);await request(`/admin/krathongs/${b.id}`,'PATCH',{status:'deleted'},true)}expect((await request('/krathongs','POST',{...boat(),country:'ASEAN_INVALID'})).status).toBe(422)})
 test('moderation hides pending wishes until approval; removal broadcasts',async()=>{await request('/admin/settings','PATCH',{...defaults,moderation:true},true);const b=boat();const r=await (await request('/krathongs','POST',b)).json();expect(r.status).toBe('pending');let state=await (await request('/state')).json();expect(state.krathongs.some((k:any)=>k.id===b.id)).toBe(false);await request(`/admin/krathongs/${b.id}`,'PATCH',{status:'approved'},true);state=await (await request('/state')).json();expect(state.krathongs.some((k:any)=>k.id===b.id)).toBe(true);await request(`/admin/krathongs/${b.id}`,'PATCH',{status:'deleted'},true);state=await (await request('/state')).json();expect(state.krathongs.some((k:any)=>k.id===b.id)).toBe(false)})
 test('closed event rejects submissions and invalid settings leave state intact',async()=>{await request('/admin/settings','PATCH',{...defaults,accepting:false},true);expect((await request('/krathongs','POST',boat())).status).toBe(409);expect((await request('/admin/settings','PATCH',{...defaults,size:100},true)).status).toBe(422);expect((await (await request('/state')).json()).settings.accepting).toBe(false)})
