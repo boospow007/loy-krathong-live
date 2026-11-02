@@ -28,4 +28,4 @@
 
 .display-brand{flex-direction:row;align-items:center;gap:24px}.display-qr{gap:12px;padding:12px}.display-qr .qr-wrap img{width:112px;height:112px}.display-qr h3:lang(en){max-width:160px;font-size:14px}.display-qr p{font-size:10px}@media(max-width:800px){.display-brand{gap:12px}.display-qr .qr-wrap img{width:85px;height:85px}.display-qr h3:lang(en){max-width:120px;font-size:12px}}@media(max-width:440px){.display-brand{align-items:flex-start;flex-direction:column;gap:7px}.display-qr .qr-wrap img{width:64px;height:64px}.display-live{font-size:5px}.display-qr{padding:8px}}
 
-.scene-static .scene-mist-drift{animation-play-state:paused}
+.scene-static .scene-mist-drift{animation-play-state:paused!important}
