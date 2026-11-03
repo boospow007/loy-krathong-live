@@ -20,7 +20,7 @@ onMounted(()=>{
       ctx.strokeStyle=row%7===0?'#c4c1a0':row%3===0?'#8cb7b9':'#4b838f'
       ctx.globalAlpha=(.045+depth*.09)*(.65+.35*Math.sin(row*13.4+phase*.24))
       ctx.lineWidth=.45+depth*.7
-      ctx.setLineDash([7+depth*35*(.4+noise),13+depth*45*(1.3-noise),4+depth*17,18+noise*50]);ctx.lineDashOffset=travel+noise*1500;ctx.stroke()
+      ctx.setLineDash([7+depth*35*(.4+noise),13+depth*45*(1.3-noise),4+depth*17,18+noise*50]);ctx.lineDashOffset=-travel+noise*1500;ctx.stroke()
     }
     ctx.setLineDash([]);ctx.globalAlpha=1
   }
