@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { packRiver } from '#shared/river-layout'
+import { flowRiver } from '#shared/river-layout'
 import type { Settings, Krathong } from '#shared/models'
 import { resolveSceneLayout, sceneObjectIds, sceneObjectStyle } from '#shared/scene-layout'
 const props=withDefaults(defineProps<{settings:Settings;krathongs?:Krathong[];decorative?:boolean}>(),{krathongs:()=>[],decorative:false})
@@ -9,22 +9,16 @@ const demo=computed<Krathong[]>(()=>Array.from({length:9},(_,i)=>({id:`demo-${i}
 const labelSizes=reactive<Record<string,{above:number;below:number;width:number}>>({})
 const projectionScale=computed(()=>Math.max(.55,Math.min(sceneWidth.value/1280,sceneHeight.value/720)))
 const boats=computed(()=>props.krathongs.length?props.krathongs:props.decorative?demo.value:[])
-function hash(id:string){return Array.from(id).reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,0)}
-function boatWidth(boat:Krathong){return (110+(hash(boat.id)%100))*props.settings.size*Math.max(.55,sceneWidth.value/1920)}
-const cursor=ref(0)
-const cycle=computed(()=>Math.floor(elapsed.value/18))
+// Depth controls apparent size; every boat at the same depth uses the same artwork width.
+function boatWidth(_boat:Krathong){return 190*props.settings.size*Math.max(.35,sceneWidth.value/1920)}
 const placements=computed(()=>{
-  const footprints=boats.value.filter(boat=>labelSizes[boat.id]).map(boat=>{const size=labelSizes[boat.id]!,artHeight=boatWidth(boat)*230/280;return {id:boat.id,width:Math.max(boatWidth(boat),size.width),height:artHeight+size.above+size.below,artHeight,above:size.above,below:size.below}})
-  return new Map(packRiver(footprints,sceneWidth.value,sceneHeight.value,scene.value.riverY,cursor.value%Math.max(1,footprints.length)).map(item=>[item.id,item]))
+  const footprints=boats.value.map(boat=>{const size=labelSizes[boat.id]??{width:boatWidth(boat),above:0,below:0},artHeight=boatWidth(boat)*230/280;return {id:boat.id,width:Math.max(boatWidth(boat),size.width),height:artHeight+size.above+size.below,artHeight,above:size.above,below:size.below}})
+  return new Map(flowRiver(footprints,sceneWidth.value,sceneHeight.value,scene.value.riverY,elapsed.value).map(item=>[item.id,item]))
 })
-watch(cycle,()=>{cursor.value=(cursor.value+Math.max(1,placements.value.size))%Math.max(1,boats.value.length)})
-watch(()=>boats.value.map(boat=>boat.id).join(','),()=>{cursor.value=0})
 function boatStyle(boat:Krathong,i:number){
   const slot=placements.value.get(boat.id),width=boatWidth(boat)
-  if(!slot)return {width:`${width}px`,left:'-10000px',top:'0',visibility:'hidden' as const}
-  const phase=elapsed.value%18
-  const fading=!props.settings.paused&&boats.value.length>placements.value.size?Math.min(1,cycle.value===0?1:phase/.7,(18-phase)/.7):1
-  return {left:`${slot.x}px`,top:`${slot.y}px`,width:`${width}px`,zIndex:Math.round(slot.y),transformOrigin:'50% 0',transform:`translate(calc(-${width*slot.scale/2}px + ${Math.sin(elapsed.value*.13+i)*3}px), ${Math.sin(elapsed.value*.3+i)*2}px) scale(${slot.scale})`,opacity:fading}
+  if(!slot)return {width:`${width}px`,visibility:'hidden' as const}
+  return {left:`${slot.x}px`,top:`${slot.y}px`,width:`${width}px`,zIndex:slot.lane+1,transformOrigin:'50% 0',transform:`translate(-50%, ${Math.sin(elapsed.value*.8+i)*2}px) scale(${slot.scale})`}
 }
 watch(boats,value=>{const ids=new Set(value.map(boat=>boat.id));for(const id of Object.keys(labelSizes))if(!ids.has(id))delete labelSizes[id]})
 

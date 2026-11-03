@@ -145,4 +145,4 @@ Guest wishes appear in speech bubbles above the krathong; names remain beneath i
 
 ## River spacing
 
-Krathongs use measured rectangular footprints including their full artwork, name and wish bubble. A packing pass reserves separate river slots with clearance for gentle movement. Captions and viewport/boat size changes trigger recalculation. When space is insufficient, successive batches rotate through the available slots; newly received krathongs receive priority. Oversized presentations scale to fit the water area. The visible-count setting remains an upper limit; the actual simultaneous count depends on available space and text sizes.
+Krathongs flow continuously through depth lanes. Boats in the foreground are larger and move faster than those near the far bank; lower lanes draw over upper lanes. Each lane reserves horizontal space for its widest artwork, name or wish bubble, so boats in that lane cannot catch or collide with each other. Different lanes may overlap naturally. Crowded lanes extend their loop beyond the screen and bring queued boats back downstream without batch fades. The organizer speed and pause settings control this flow.
