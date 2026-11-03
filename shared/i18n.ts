@@ -4,6 +4,22 @@ export function resolveLocale(value: unknown): Locale { return value === 'th' ? 
 
 // Source keys stay stable; guest names, wishes and custom event copy are never translated.
 export const english: Record<string, string> = {
+  'ขนาดชื่อใต้กระทง': 'Guest name size',
+  'ใช้กับชื่อใต้กระทงทุกใบ': 'Apply to the name beneath every krathong.',
+  'ขนาดกล่องคำอวยพร': 'Wish bubble size',
+  'ปรับกล่องและข้อความคำอวยพรทุกใบ': 'Resize every wish bubble and its text.',
+  'สุ่มกระทงตกแต่ง': 'Random decorative krathongs',
+  'ส่งกระทงแบบไม่มีชื่อ ธง หรือคำอวยพรขึ้นจอ': 'Add krathongs without names, flags or wishes to the river.',
+  'สุ่มและส่งขึ้นจอ': 'Send random krathongs',
+  'กระทงสุ่มส่งขึ้นจอแล้ว': 'random krathongs sent to the display',
+  'กระทงสุ่ม': 'Decorative krathong',
+  'กระทงตกแต่ง ไม่มีชื่อหรือคำอวยพร': 'Decorative krathong · no name or wish',
+  'จำนวน': 'Quantity',
+  'จัดการกระทง': 'Manage krathongs',
+  'ลบกระทงทั้งหมด': 'Delete all krathongs',
+  'ลบกระทงนี้ออกจากจอ?': 'Delete this krathong?',
+  'กระทงที่เลือกจะถูกลบถาวรและนำออกจากจอทันที': 'This krathong will be permanently deleted and removed from the display.',
+  'ยืนยันลบกระทง': 'Confirm delete',
   'พระจันทร์': 'Moon',
   'ปรางค์กรุงเก่า': 'Ayutthaya prang',
   'เจดีย์กรุงเก่า': 'Ayutthaya chedis',

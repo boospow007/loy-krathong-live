@@ -134,3 +134,11 @@ The event display now has separate moon, Ayutthaya prang, three chedis, riverban
 Changes save during interaction, propagate over SSE, and persist in MongoDB. Existing events receive default scene settings; older clients updating other settings preserve the saved scene. Scene speed controls clouds/mist, water speed controls ripples/reflections, and Pause motion freezes both. The existing remembrance-image switch remains available.
 
 The three original generated images and their prompts, reference links, coordinates and asset preparation are documented in [docs/ayutthaya-scene.md](docs/ayutthaya-scene.md). Production files are versioned in `public/scene/ayutthaya-v1/`; regenerate with `node scripts/prepare-scene-art.mjs` using the local ignored PNG originals.
+
+## Decorative krathongs, speech bubbles and moderation
+
+The admin toolbar can send 1, 5, 10 or 20 random decorative krathongs directly to the river. They have no guest name, wish or country flag, and are identified separately in the moderation list. The authenticated `/api/admin/krathongs/random` endpoint takes an array of up to 20 UUIDs; retrying the same IDs does not create duplicates. These organizer-created decorations can be sent while guest submissions are closed or guest moderation is enabled. Public guest submissions still require a name.
+
+Guest wishes appear in speech bubbles above the krathong; names remain beneath it. **Guest name size** and **Wish bubble size** independently scale all krathongs (0.5–3×), save to MongoDB and update connected screens in realtime. Wish bubble size scales its text and padding together. Long text wraps without truncation. Caption measurements keep the boat and its labels inside the vertical display area where space permits. Older clients preserve the saved text sizes when updating other settings.
+
+**Manage krathongs** jumps to the moderation list. Each row has a labeled **Delete krathong** button and a confirmation preview of that specific boat/name/wish. **Delete all krathongs** retains the bulk confirmation dialog. Confirmed deletions remove records and broadcast to displays immediately; event settings remain unchanged.

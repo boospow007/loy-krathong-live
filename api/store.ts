@@ -18,6 +18,7 @@ export async function createStore(uri = process.env.MONGODB_URI || 'mongodb://12
     find:(id:string)=>items.findOne({id},{projection:{_id:0}}),
     async updateSettings(value:Settings){const next={...value,scene:resolveSceneLayout(value.scene)};await config.updateOne({key:'event'},{$set:{value:next}},{upsert:true});cached=structuredClone(next);revision++},
     async add(item:Krathong){ const result=await items.updateOne({id:item.id},{$setOnInsert:item},{upsert:true}); if(result.upsertedCount)revision++ },
+    async addMany(boats:Krathong[]){const result=await items.bulkWrite(boats.map(item=>({updateOne:{filter:{id:item.id},update:{$setOnInsert:item},upsert:true}})),{ordered:false});if(result.upsertedCount)revision++;return result.upsertedCount},
     async moderate(id:string,status:'approved'|'deleted'){const n=status==='deleted'?(await items.deleteOne({id})).deletedCount:(await items.updateOne({id},{$set:{status}})).matchedCount;if(n)revision++;return n},
     async clear(){await items.deleteMany({});revision++}
   }
