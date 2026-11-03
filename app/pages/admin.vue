@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { EVENT_TITLE } from '#shared/event-brand'
 const { t, eventText } = useAppI18n()
 import { Monitor, SlidersHorizontal, LogOut, ArrowUpRight, Check, Trash2, Eye, ShieldCheck, Pause, Play, Radio, Shuffle } from 'lucide-vue-next'
 import { defaults, type Settings, type Krathong } from '#shared/models'
@@ -24,7 +25,7 @@ async function clear(){if(deleting.value)return;deleting.value=true;deleteError.
 async function removeSelected(){if(deleting.value||!confirmDelete.value)return;deleting.value=true;deleteError.value='';try{await api(`/admin/krathongs/${confirmDelete.value.id}`,{method:'PATCH',body:{status:'deleted'}});confirmDelete.value=undefined;await refresh()}catch(e:any){deleteError.value=e.message}finally{deleting.value=false}}
 async function sendRandom(){if(randomBusy.value)return;randomBusy.value=true;randomError.value='';randomNotice.value='';randomIds.length||(randomIds=Array.from({length:randomCount.value},()=>crypto.randomUUID()));try{const r=await api('/admin/krathongs/random',{method:'POST',body:{ids:randomIds}});randomNotice.value=`${r.requested} ${t('กระทงสุ่มส่งขึ้นจอแล้ว')}`;randomIds=[];await refresh()}catch(e:any){randomError.value=e.message}finally{randomBusy.value=false}}
 const toggles=[{key:'showNames',label:'แสดงชื่อบนกระทง'},{key:'showWishes',label:'แสดงคำอวยพร'},{key:'showQr',label:'แสดง QR บนจองาน'},{key:'accepting',label:'เปิดรับกระทงจากแขก'},{key:'moderation',label:'ตรวจคำอวยพรก่อนขึ้นจอ'}] as const
-useHead(()=>({title:t('ห้องควบคุมงาน • คืนจันทร์')}))
+useHead(()=>({title:`${EVENT_TITLE} • ${t('ห้องควบคุมสายน้ำ')}`}))
 </script>
 <template>
 <div class="admin-page"><header class="site-header"><BrandMark/><nav><LanguageSwitch/><span class="header-link"><span class="status-dot" :class="{offline:!connected}"/>{{t(connected?'ระบบพร้อมใช้งาน':'กำลังเชื่อมต่อ')}}</span><button v-if="logged" class="text-button" @click="logout"><LogOut :size="16"/>{{t('ออกจากระบบ')}}</button></nav></header>

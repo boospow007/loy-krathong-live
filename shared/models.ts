@@ -1,4 +1,5 @@
 import { createDefaultScene, type SceneLayout } from './scene-layout'
+import { EVENT_TITLE } from './event-brand'
 export const bases = [
   { name: 'กลีบเล็บครุฑ', story: 'กลีบแหลมซ้อนสองชั้นจากใบตองสด', color: '#435d2f', edge: '#92a46c' },
   { name: 'กะลามะพร้าว', story: 'กะลาสีน้ำตาลธรรมชาติรองด้วยใบตอง', color: '#725238', edge: '#b39a70' },
@@ -17,5 +18,5 @@ export const flowers = [
 ] as const
 export interface Krathong { id: string; country: string; base: number; flower: number; name: string; wish: string; createdAt: number; status: 'approved' | 'pending'; source?: 'admin-random' }
 export interface Settings { title: string; subtitle: string; size: number; speed: number; sceneSpeed: number; waterSpeed: number; brightness: number; maxVisible: number; nameScale: number; wishScale: number; showNames: boolean; showWishes: boolean; showQr: boolean; showMemorial: boolean; paused: boolean; accepting: boolean; moderation: boolean; guestUrl: string; scene: SceneLayout }
-export const defaults: Settings = { title: 'คืนจันทร์ ริมสายน้ำ', subtitle: 'ให้สายน้ำพาคำอธิษฐานของเราไปด้วยกัน', size: 1, speed: 1, sceneSpeed: 1, waterSpeed: 1, brightness: 1, maxVisible: 36, nameScale: 1, wishScale: 1, showNames: true, showWishes: true, showQr: true, showMemorial: false, paused: false, accepting: true, moderation: false, guestUrl: '', scene: createDefaultScene() }
+export const defaults: Settings = { title: EVENT_TITLE, subtitle: 'ให้สายน้ำพาคำอธิษฐานของเราไปด้วยกัน', size: 1, speed: 1, sceneSpeed: 1, waterSpeed: 1, brightness: 1, maxVisible: 36, nameScale: 1, wishScale: 1, showNames: true, showWishes: true, showQr: true, showMemorial: false, paused: false, accepting: true, moderation: false, guestUrl: '', scene: createDefaultScene() }
 export interface LiveState { settings: Settings; krathongs: Krathong[]; total: number; revision: number }
