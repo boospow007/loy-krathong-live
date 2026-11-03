@@ -1,25 +1,33 @@
 <script setup lang="ts">
+import { packRiver } from '#shared/river-layout'
 import type { Settings, Krathong } from '#shared/models'
 import { resolveSceneLayout, sceneObjectIds, sceneObjectStyle } from '#shared/scene-layout'
 const props=withDefaults(defineProps<{settings:Settings;krathongs?:Krathong[];decorative?:boolean}>(),{krathongs:()=>[],decorative:false})
 const scene=computed(()=>resolveSceneLayout(props.settings.scene))
-const elapsed=ref(0); const born=new Map<string,number>(); const sceneEl=ref<HTMLElement>(); const sceneWidth=ref(1920); const sceneHeight=ref(1080); let observer:ResizeObserver; let frame=0;let last=0
+const elapsed=ref(0); const sceneEl=ref<HTMLElement>(); const sceneWidth=ref(1920); const sceneHeight=ref(1080); let observer:ResizeObserver; let frame=0;let last=0
 const demo=computed<Krathong[]>(()=>Array.from({length:9},(_,i)=>({id:`demo-${i}`,base:i%6,flower:(i+2)%6,country:'',name:'',wish:'',createdAt:0,status:'approved'})))
-const labelSizes=reactive<Record<string,{above:number;below:number}>>({})
+const labelSizes=reactive<Record<string,{above:number;below:number;width:number}>>({})
 const projectionScale=computed(()=>Math.max(.55,Math.min(sceneWidth.value/1280,sceneHeight.value/720)))
 const boats=computed(()=>props.krathongs.length?props.krathongs:props.decorative?demo.value:[])
 function hash(id:string){return Array.from(id).reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,0)}
+function boatWidth(boat:Krathong){return (110+(hash(boat.id)%100))*props.settings.size*Math.max(.55,sceneWidth.value/1920)}
+const cursor=ref(0)
+const cycle=computed(()=>Math.floor(elapsed.value/18))
+const placements=computed(()=>{
+  const footprints=boats.value.filter(boat=>labelSizes[boat.id]).map(boat=>{const size=labelSizes[boat.id]!,artHeight=boatWidth(boat)*230/280;return {id:boat.id,width:Math.max(boatWidth(boat),size.width),height:artHeight+size.above+size.below,artHeight,above:size.above,below:size.below}})
+  return new Map(packRiver(footprints,sceneWidth.value,sceneHeight.value,scene.value.riverY,cursor.value%Math.max(1,footprints.length)).map(item=>[item.id,item]))
+})
+watch(cycle,()=>{cursor.value=(cursor.value+Math.max(1,placements.value.size))%Math.max(1,boats.value.length)})
+watch(()=>boats.value.map(boat=>boat.id).join(','),()=>{cursor.value=0})
 function boatStyle(boat:Krathong,i:number){
-  if(!born.has(boat.id))born.set(boat.id,elapsed.value)
-  const age=elapsed.value-born.get(boat.id)!,h=hash(boat.id),depth=(h%100)/100
-  const x=(25+(h%997)/997*80+age*(1+depth*.6))%135-17
-  const width=(110+depth*100)*props.settings.size*Math.max(.55,sceneWidth.value/1920)
-  const labels=labelSizes[boat.id]??{above:0,below:props.settings.showNames&&boat.name?24*projectionScale.value*(props.settings.nameScale??1):0}
-  const lastRow=Math.max(0,98-(width*230/280+labels.below)/sceneHeight.value*100)
-  const firstRow=Math.min(Math.max(scene.value.riverY+2,labels.above/sceneHeight.value*100+1),lastRow)
-  return {left:`${x}%`,top:`${firstRow+depth*(lastRow-firstRow)}%`,width:`${width}px`,zIndex:Math.round(10+depth*100),transform:`translate(-50%, ${Math.sin(elapsed.value*.3+i)*4}px)`,opacity:.75+depth*.25}
+  const slot=placements.value.get(boat.id),width=boatWidth(boat)
+  if(!slot)return {width:`${width}px`,left:'-10000px',top:'0',visibility:'hidden' as const}
+  const phase=elapsed.value%18
+  const fading=!props.settings.paused&&boats.value.length>placements.value.size?Math.min(1,cycle.value===0?1:phase/.7,(18-phase)/.7):1
+  return {left:`${slot.x}px`,top:`${slot.y}px`,width:`${width}px`,zIndex:Math.round(slot.y),transformOrigin:'50% 0',transform:`translate(calc(-${width*slot.scale/2}px + ${Math.sin(elapsed.value*.13+i)*3}px), ${Math.sin(elapsed.value*.3+i)*2}px) scale(${slot.scale})`,opacity:fading}
 }
-watch(boats,value=>{const ids=new Set(value.map(boat=>boat.id));for(const id of born.keys())if(!ids.has(id))born.delete(id);for(const id of Object.keys(labelSizes))if(!ids.has(id))delete labelSizes[id]})
+watch(boats,value=>{const ids=new Set(value.map(boat=>boat.id));for(const id of Object.keys(labelSizes))if(!ids.has(id))delete labelSizes[id]})
+
 onMounted(()=>{observer=new ResizeObserver(entries=>{sceneWidth.value=entries[0]!.contentRect.width;sceneHeight.value=entries[0]!.contentRect.height||1080});if(sceneEl.value)observer.observe(sceneEl.value);const tick=(time:number)=>{if(last&&!props.settings.paused)elapsed.value+=Math.min((time-last)/1000,.1)*props.settings.speed*.75;last=time;frame=requestAnimationFrame(tick)};frame=requestAnimationFrame(tick)})
 onBeforeUnmount(()=>{cancelAnimationFrame(frame);observer?.disconnect()})
 </script>

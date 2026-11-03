@@ -142,3 +142,7 @@ The admin toolbar can send 1, 5, 10 or 20 random decorative krathongs directly t
 Guest wishes appear in speech bubbles above the krathong; names remain beneath it. **Guest name size** and **Wish bubble size** independently scale all krathongs (0.5–3×), save to MongoDB and update connected screens in realtime. Wish bubble size scales its text and padding together. Long text wraps without truncation. Caption measurements keep the boat and its labels inside the vertical display area where space permits. Older clients preserve the saved text sizes when updating other settings.
 
 **Manage krathongs** jumps to the moderation list. Each row has a labeled **Delete krathong** button and a confirmation preview of that specific boat/name/wish. **Delete all krathongs** retains the bulk confirmation dialog. Confirmed deletions remove records and broadcast to displays immediately; event settings remain unchanged.
+
+## River spacing
+
+Krathongs use measured rectangular footprints including their full artwork, name and wish bubble. A packing pass reserves separate river slots with clearance for gentle movement. Captions and viewport/boat size changes trigger recalculation. When space is insufficient, successive batches rotate through the available slots; newly received krathongs receive priority. Oversized presentations scale to fit the water area. The visible-count setting remains an upper limit; the actual simultaneous count depends on available space and text sizes.

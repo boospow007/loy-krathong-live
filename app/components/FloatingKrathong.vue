@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import type { Krathong, Settings } from '#shared/models'
 const props=defineProps<{boat:Krathong;settings:Settings;projectionScale:number}>()
-const emit=defineEmits<{measure:[value:{above:number;below:number}]}>()
+const emit=defineEmits<{measure:[value:{above:number;below:number;width:number}]}>()
 const root=ref<HTMLElement>(),art=ref<HTMLElement>(),wish=ref<HTMLElement>()
 const hasName=computed(()=>props.boat.source!=='admin-random'&&props.settings.showNames&&!!props.boat.name.trim())
 const hasWish=computed(()=>props.boat.source!=='admin-random'&&props.settings.showWishes&&!!props.boat.wish.trim())
 const nameScale=computed(()=>(props.settings.nameScale??1)*props.projectionScale)
 const wishScale=computed(()=>(props.settings.wishScale??1)*props.projectionScale)
-let observer:ResizeObserver|undefined,lastAbove=-1,lastBelow=-1
+let observer:ResizeObserver|undefined,lastAbove=-1,lastBelow=-1,lastWidth=-1
 function measure(){
   if(!root.value||!art.value)return
-  const artHeight=art.value.getBoundingClientRect().height
-  const above=Math.max(0,(wish.value?.getBoundingClientRect().height??0)-artHeight*.18+8)
-  const below=Math.max(0,root.value.getBoundingClientRect().height-artHeight)
-  if(Math.abs(above-lastAbove)>.5||Math.abs(below-lastBelow)>.5){lastAbove=above;lastBelow=below;emit('measure',{above,below})}
+  const artHeight=art.value.offsetHeight
+  const above=hasWish.value?Math.max(0,(wish.value?.offsetHeight??0)-artHeight*.18+10):0
+  const below=Math.max(0,root.value.offsetHeight-artHeight)
+  const width=Math.max(root.value.offsetWidth,wish.value?.offsetWidth??0,root.value.querySelector<HTMLElement>('.krathong-name-label')?.offsetWidth??0)
+  if(Math.abs(above-lastAbove)>.5||Math.abs(below-lastBelow)>.5||Math.abs(width-lastWidth)>.5){lastAbove=above;lastBelow=below;lastWidth=width;emit('measure',{above,below,width})}
 }
 function observe(){observer?.disconnect();if(root.value)observer?.observe(root.value);if(art.value)observer?.observe(art.value);if(wish.value)observer?.observe(wish.value);measure()}
 onMounted(()=>{observer=new ResizeObserver(measure);observe()})
