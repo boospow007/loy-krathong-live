@@ -155,4 +155,17 @@ test('display overlay switches persist and broadcast, and older clients preserve
   await reader.cancel()
   expect((await request('/admin/settings','PATCH',before.settings,true)).status).toBe(200)
 })
+test('sky lantern size validates, persists and broadcasts while older clients preserve it',async()=>{
+  const before=await store.state(),stream=await request('/events'),reader=stream.body!.getReader();await reader.read()
+  const next=reader.read()
+  expect((await request('/admin/settings','PATCH',{...before.settings,lanternScale:4.5},true)).status).toBe(200)
+  expect(new TextDecoder().decode((await next).value)).toContain('"lanternScale":4.5')
+  const persisted=await store.client.db(process.env.MONGODB_DATABASE).collection('settings').findOne({key:'event'})
+  expect(persisted.value.lanternScale).toBe(4.5)
+  const {lanternScale,...legacy}=before.settings
+  expect((await request('/admin/settings','PATCH',legacy,true)).status).toBe(200)
+  expect((await store.state()).settings.lanternScale).toBe(4.5)
+  expect((await request('/admin/settings','PATCH',{...before.settings,lanternScale:9},true)).status).toBe(422)
+  await reader.cancel();await request('/admin/settings','PATCH',before.settings,true)
+})
 test('cross-origin writes are denied and logout revokes access',async()=>{const r=await app.handle(new Request('http://localhost/api/login',{method:'POST',headers:{origin:'https://untrusted.example','content-type':'application/json'},body:JSON.stringify({password:process.env.ADMIN_PASSWORD})}));expect(r.status).toBe(403);await request('/logout','POST',undefined,true);expect((await request('/admin/state','GET',undefined,true)).status).toBe(401)})

@@ -4,6 +4,8 @@ export function resolveLocale(value: unknown): Locale { return value === 'th' ? 
 
 // Source keys stay stable; guest names, wishes and custom event copy are never translated.
 export const english: Record<string, string> = {
+  'ขนาดโคมลอย': 'Sky lantern size',
+  'ปรับขนาดโคมลอยทุกดวงบนฉาก': 'Resize every sky lantern in the scene.',
   'องค์ประกอบบนจอ Display': 'Display overlays',
   'เปิดปิดแยกกันได้ มีผลบนจอทันที': 'Toggle each overlay. Changes appear on the display immediately.',
   'แสดงโลโก้งานและสถานะ LIVE': 'Event logo and LIVE status',

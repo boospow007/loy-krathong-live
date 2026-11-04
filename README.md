@@ -150,3 +150,5 @@ Krathongs flow continuously through depth lanes. Boats in the foreground are lar
 ## Display overlays
 
 In Admin → Display overlays, independently toggle the QR block, event logo/LIVE status, title/welcome text, krathong count, controls menu and bottom caption. Hide all overlays / Show all overlays applies to these six groups; boat names and wishes retain their separate controls. Settings persist in MongoDB and update open displays through SSE. Existing events keep all overlays visible by default. Hidden menus stay hidden even when the pointer moves; organizers can restore them from `/admin`.
+
+Admin → Scene & motion → Sky lantern size scales every sky lantern from 0.5× to 8× and updates the preview and open displays live.
