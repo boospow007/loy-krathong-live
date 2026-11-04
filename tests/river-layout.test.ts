@@ -31,3 +31,16 @@ test('every queued boat eventually crosses the viewport without batch replacemen
   for(let time=0;time<2000;time+=2)for(const boat of flowRiver(boats,852,480,54,time))if(boat.x>=0&&boat.x<=852)seen.add(boat.id)
   expect(seen.size).toBe(boats.length)
 })
+
+test('boats form a stable irregular arrangement rather than equally spaced rows',()=>{
+  const uniform=boats.slice(0,24).map(b=>({...b,width:190,artHeight:156,below:20}))
+  const slots=flowRiver(uniform,1920,1080,54,0)
+  expect(flowRiver(uniform,1920,1080,54,0)).toEqual(slots)
+  for(let lane=0;lane<4;lane++){
+    const row=slots.filter(b=>b.lane===lane).sort((a,b)=>a.x-b.x)
+    const gaps=row.slice(1).map((b,i)=>b.x-row[i]!.x)
+    const bottoms=row.map(b=>b.y+156*b.scale)
+    expect(Math.max(...gaps)-Math.min(...gaps)).toBeGreaterThan(20)
+    expect(Math.max(...bottoms)-Math.min(...bottoms)).toBeGreaterThan(5)
+  }
+})
