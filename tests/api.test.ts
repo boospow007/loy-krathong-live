@@ -113,6 +113,29 @@ test('single and bulk deletion remove krathongs from MongoDB and broadcast witho
   expect(await store.list(true)).toEqual([]);expect(store.settings()).toEqual(settings)
   await reader.cancel()
 })
+test('all approved krathongs reach display and SSE beyond old limits; legacy limit is ignored',async()=>{
+  const before=await store.state(),beforeAdmin=(await store.list(true)).length
+  const seeded=Array.from({length:622},(_,i)=>({...boat(),createdAt:Date.now()+i,status:i<620?'approved':'pending'}))
+  await store.addMany(seeded)
+  try{
+    const legacyResponse=await request('/admin/settings','PATCH',{...before.settings,maxVisible:55},true)
+    expect(legacyResponse.status).toBe(200)
+    const state=await legacyResponse.json()
+    expect(state.krathongs.length).toBe(before.krathongs.length+620)
+    expect(state.total).toBe(state.krathongs.length)
+    expect(state.settings.maxVisible).toBeUndefined()
+    expect(state.krathongs.some((b:any)=>b.id===seeded[0]!.id)).toBe(true)
+    expect((await (await request('/admin/state','GET',undefined,true)).json()).krathongs.length).toBe(beforeAdmin+622)
+    const stream=await request('/events'),reader=stream.body!.getReader()
+    const payload=JSON.parse(new TextDecoder().decode((await reader.read()).value).split('data: ')[1]!)
+    expect(payload.krathongs.length).toBe(state.krathongs.length)
+    expect(payload.krathongs.some((b:any)=>b.id===seeded[621]!.id)).toBe(false)
+    await reader.cancel()
+  }finally{
+    await store.client.db(process.env.MONGODB_DATABASE).collection('krathongs').deleteMany({id:{$in:seeded.map(b=>b.id)}})
+    await request('/admin/settings','PATCH',before.settings,true)
+  }
+})
 test('display overlay switches persist and broadcast, and older clients preserve them',async()=>{
   const before=await store.state()
   const keys=['showBrand','showHeading','showCount','showControls','showFooter'] as const

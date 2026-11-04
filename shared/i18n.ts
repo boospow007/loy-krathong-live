@@ -188,6 +188,7 @@ export const english: Record<string, string> = {
   'ลองบันทึกอีกครั้ง': 'Retry saving',
   'กระทงและคำอธิษฐาน': 'Krathongs & wishes',
   'รายการล่าสุด': 'latest entries',
+  'รายการทั้งหมด': 'total entries',
   'ล้างข้อมูลกระทง': 'Clear all krathongs',
   'ค่ำคืนนี้กำลังจะเริ่มต้น กระทงจากแขกจะแสดงที่นี่': 'The night is about to begin. Guest krathongs will appear here.',
   'รอตรวจสอบ': 'Pending review',

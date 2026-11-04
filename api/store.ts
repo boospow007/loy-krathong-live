@@ -6,14 +6,15 @@ export async function createStore(uri = process.env.MONGODB_URI || 'mongodb://12
   await client.connect()
   const db = client.db(name)
   const items = db.collection<Krathong>('krathongs')
-  const config = db.collection<{ key: string; value: Settings }>('settings')
+  const config = db.collection<{ key: string; value: Settings & {maxVisible?:number} }>('settings')
   await Promise.all([items.createIndex({ id: 1 }, { unique: true }), items.createIndex({ status: 1, createdAt: -1 }), config.createIndex({ key: 1 }, { unique: true })])
   let revision = 0
-  let cached: Settings = { ...defaults, guestUrl: process.env.PUBLIC_ORIGIN || defaults.guestUrl, ...(await config.findOne({key:'event'}))?.value }
+  const {maxVisible:_legacyLimit,...saved}=(await config.findOne({key:'event'}))?.value??{}
+  let cached: Settings = { ...defaults, guestUrl: process.env.PUBLIC_ORIGIN || defaults.guestUrl, ...saved }
   cached.scene = resolveSceneLayout(cached.scene)
   const settings = () => structuredClone(cached)
-  const list = (admin=false) => items.find(admin ? {} : {status:'approved'}, {projection:{_id:0}}).sort({createdAt:-1}).limit(500).toArray()
-  const state = async () => ({settings:settings(),krathongs:await items.find({status:'approved'},{projection:{_id:0}}).sort({createdAt:-1}).limit(cached.maxVisible).toArray(),total:await items.countDocuments({status:'approved'}),revision})
+  const list = (admin=false) => items.find(admin ? {} : {status:'approved'}, {projection:{_id:0}}).sort({createdAt:-1}).toArray()
+  const state = async () => ({settings:settings(),krathongs:await items.find({status:'approved'},{projection:{_id:0}}).sort({createdAt:-1}).toArray(),total:await items.countDocuments({status:'approved'}),revision})
   return {client,settings,list,state,
     find:(id:string)=>items.findOne({id},{projection:{_id:0}}),
     async updateSettings(value:Settings){const next={...value,scene:resolveSceneLayout(value.scene)};await config.updateOne({key:'event'},{$set:{value:next}},{upsert:true});cached=structuredClone(next);revision++},
