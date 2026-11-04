@@ -56,8 +56,8 @@ const layout=computed(()=>getKrathongLayout(baseIndex.value,flowerIndex.value))
     </g>
     <g v-if="countryOption" role="img" :aria-label="flagLabel(countryOption.name)">
       <path :d="`M202 ${layout.anchorY}L196 81`" :stroke="`url(#${uid}-bamboo)`" stroke-width="1.6"/>
-      <image v-if="countryOption.flagImage" :href="countryOption.flagImage" x="196" y="81" width="33" height="22" preserveAspectRatio="xMidYMid meet"/>
-      <text v-else x="195" y="101" font-size="24">{{countryOption.flag}}</text>
+      <image v-if="countryOption.flagImage" :href="countryOption.flagImage" x="196" y="77" width="42" height="30" preserveAspectRatio="xMidYMid meet"/>
+
     </g>
     <!-- The photographed front rim occludes flowers and the bottom of the flagpole. -->
     <image :href="baseSrc" :x="layout.image.x" :y="layout.image.y" :width="layout.image.width" :height="layout.image.height" preserveAspectRatio="xMidYMax meet" :clip-path="`url(#${uid}-front)`"/>
