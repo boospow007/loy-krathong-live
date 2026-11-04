@@ -113,4 +113,23 @@ test('single and bulk deletion remove krathongs from MongoDB and broadcast witho
   expect(await store.list(true)).toEqual([]);expect(store.settings()).toEqual(settings)
   await reader.cancel()
 })
+test('display overlay switches persist and broadcast, and older clients preserve them',async()=>{
+  const before=await store.state()
+  const keys=['showBrand','showHeading','showCount','showControls','showFooter'] as const
+  const hidden={...before.settings,showQr:false,...Object.fromEntries(keys.map(key=>[key,false]))}
+  expect((await request('/admin/settings','PATCH',hidden)).status).toBe(401)
+  const stream=await request('/events'),reader=stream.body!.getReader();await reader.read()
+  const next=reader.read()
+  expect((await request('/admin/settings','PATCH',hidden,true)).status).toBe(200)
+  const update=JSON.parse(new TextDecoder().decode((await next).value).split('data: ')[1]!)
+  for(const key of [...keys,'showQr'])expect(update.settings[key]).toBe(false)
+  const persisted=await store.client.db(process.env.MONGODB_DATABASE).collection('settings').findOne({key:'event'})
+  for(const key of keys)expect(persisted.value[key]).toBe(false)
+  const legacy={...hidden};for(const key of keys)delete legacy[key]
+  expect((await request('/admin/settings','PATCH',legacy,true)).status).toBe(200)
+  for(const key of keys)expect((await store.state()).settings[key]).toBe(false)
+  expect((await request('/admin/settings','PATCH',{...hidden,showControls:'no'},true)).status).toBe(422)
+  await reader.cancel()
+  expect((await request('/admin/settings','PATCH',before.settings,true)).status).toBe(200)
+})
 test('cross-origin writes are denied and logout revokes access',async()=>{const r=await app.handle(new Request('http://localhost/api/login',{method:'POST',headers:{origin:'https://untrusted.example','content-type':'application/json'},body:JSON.stringify({password:process.env.ADMIN_PASSWORD})}));expect(r.status).toBe(403);await request('/logout','POST',undefined,true);expect((await request('/admin/state','GET',undefined,true)).status).toBe(401)})

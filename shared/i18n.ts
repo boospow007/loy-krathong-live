@@ -4,6 +4,16 @@ export function resolveLocale(value: unknown): Locale { return value === 'th' ? 
 
 // Source keys stay stable; guest names, wishes and custom event copy are never translated.
 export const english: Record<string, string> = {
+  'องค์ประกอบบนจอ Display': 'Display overlays',
+  'เปิดปิดแยกกันได้ มีผลบนจอทันที': 'Toggle each overlay. Changes appear on the display immediately.',
+  'แสดงโลโก้งานและสถานะ LIVE': 'Event logo and LIVE status',
+  'แสดงชื่องานและข้อความต้อนรับ': 'Event title and welcome text',
+  'แสดงจำนวนกระทง': 'Krathong count',
+  'แสดงเมนูควบคุมบนจอ': 'Display controls menu',
+  'แสดงข้อความมุมล่าง': 'Bottom caption',
+  'ซ่อน UI ทั้งหมด': 'Hide all overlays',
+  'แสดง UI ทั้งหมด': 'Show all overlays',
+
   'ขนาดชื่อใต้กระทง': 'Guest name size',
   'ใช้กับชื่อใต้กระทงทุกใบ': 'Apply to the name beneath every krathong.',
   'ขนาดกล่องคำอวยพร': 'Wish bubble size',

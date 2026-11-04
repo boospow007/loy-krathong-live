@@ -146,3 +146,7 @@ Guest wishes appear in speech bubbles above the krathong; names remain beneath i
 ## River spacing
 
 Krathongs flow continuously through depth lanes. Boats in the foreground are larger and move faster than those near the far bank; lower lanes draw over upper lanes. Each lane reserves horizontal space for neighbouring artwork, names and wish bubbles, with stable seeded variations in gaps, depth and size. This creates an irregular arrangement while boats in that lane cannot catch or collide with each other. Different lanes may overlap naturally. Crowded lanes extend their loop beyond the screen and bring queued boats back downstream without batch fades. The organizer speed and pause settings control this flow.
+
+## Display overlays
+
+In Admin → Display overlays, independently toggle the QR block, event logo/LIVE status, title/welcome text, krathong count, controls menu and bottom caption. Hide all overlays / Show all overlays applies to these six groups; boat names and wishes retain their separate controls. Settings persist in MongoDB and update open displays through SSE. Existing events keep all overlays visible by default. Hidden menus stay hidden even when the pointer moves; organizers can restore them from `/admin`.
