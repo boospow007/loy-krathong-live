@@ -24,6 +24,10 @@ useHead(()=>({title:EVENT_TITLE}))
 </section>
 <section class="composer" :aria-label="t('สร้างกระทง')">
 <template v-if="!sent">
+<div class="mobile-krathong-preview" role="region" :aria-label="t('ตัวอย่างกระทงของคุณ')">
+  <KrathongArt :base="base" :flower="flower" :country="step===3?country:''"/>
+  <div><span class="eyebrow">{{t('ตัวอย่างกระทงของคุณ')}}</span><p aria-live="polite">{{t(bases[base]!.name)}}<br/>{{t(flowers[flower]!.name)}}</p><small>{{t('เลือกแล้วดูตัวอย่างได้ทันที')}}</small></div>
+</div>
 <div class="composer-top"><span class="eyebrow">CRAFT YOUR KRATHONG</span><span class="step-count">0{{step}} <span>/ 03</span></span></div>
 <div class="stepper"><button v-for="(label,i) in ['เลือกฐานกระทง','เลือกดอกไม้','คำอธิษฐาน']" :key="label" :class="{active:step===i+1,done:step>i+1}" :disabled="i+1>step" @click="step=i+1;error=''"><span><Check v-if="step>i+1" :size="13"/><template v-else>{{i+1}}</template></span>{{t(label)}}</button></div>
 <div class="step-heading"><h2>{{t(titles[step-1])}}</h2><p>{{t(step===1?'เริ่มจากฐานกระทงที่ชอบ แต่ละแบบมีความหมายในตัวเอง':step===2?'เลือกดอกไม้แทนความรู้สึก ให้กระทงนี้พิเศษในแบบของคุณ':'เขียนชื่อและคำอวยพร ก่อนส่งกระทงของคุณขึ้นจอ')}}</p></div>
@@ -43,3 +47,32 @@ useHead(()=>({title:EVENT_TITLE}))
 <footer class="site-footer"><span>Gala Dinner · 25th ASLOM</span><span>MADE FOR A MOMENT TOGETHER <span class="gold">✧</span></span></footer>
 </div>
 </template>
+
+<style scoped>
+.mobile-krathong-preview{display:none}
+@media(max-width:800px){
+  .mobile-krathong-preview{display:grid;grid-template-columns:130px minmax(0,1fr);align-items:center;gap:14px;position:sticky;top:0;z-index:20;margin:-25px -25px 22px;padding:10px 20px;background:linear-gradient(120deg,#183448,#101f3d);border-bottom:1px solid #d6bc7955;border-radius:15px 15px 0 0;box-shadow:0 8px 20px #020a1d33}
+  .mobile-krathong-preview>.krathong-art{width:130px;height:auto}
+  .mobile-krathong-preview .eyebrow{font-size:8px;letter-spacing:1px;line-height:1.5}
+  .mobile-krathong-preview p{font-size:12px;color:#f4e7ca;line-height:1.7;margin:8px 0 4px}
+  .mobile-krathong-preview small{font-size:9px;color:#a9c2cc;line-height:1.5;display:block}
+}
+@media(max-width:440px){.mobile-krathong-preview{margin:-20px -17px 20px;padding:8px 15px;gap:10px;border-radius:11px 11px 0 0}}
+@media(max-width:800px) and (max-height:600px){.mobile-krathong-preview{grid-template-columns:100px minmax(0,1fr);padding-top:5px;padding-bottom:5px}.mobile-krathong-preview>.krathong-art{width:100px}.mobile-krathong-preview p{margin:3px 0;font-size:11px}.mobile-krathong-preview small{display:none}}
+
+@media(max-width:800px){
+  .guest-story>.eyebrow,.guest-story>.gala-meeting,.guest-story>.story-description,.guest-story>.preview-stage,.guest-story>.eco-note{display:none}
+  .guest-page :deep(.site-header .brand small){display:none}
+  .guest-page .site-header{height:68px;margin:0 20px}
+  .guest-page .site-header nav{gap:10px}
+  .guest-layout{padding:16px 18px 25px;gap:16px}
+  .guest-story,.guest-story:lang(en){display:grid;grid-template-columns:1fr 1fr;align-items:center;min-height:0;padding:0 4px}
+  .guest-story h1.gala-hero-title,.guest-story:lang(en) h1.gala-hero-title{font-size:36px;line-height:.95;width:auto;margin:4px 0 8px;letter-spacing:1px}
+  .gala-hero-title>em{margin-left:16px;font-size:.78em;letter-spacing:-1px}
+  .guest-story .live-counter{margin:0;gap:8px;justify-self:end}
+  .guest-story .live-counter strong{font-size:15px}
+  .guest-story .live-counter strong span{display:block;margin-left:0;font-size:9px}
+  .guest-story .live-counter small{font-size:7px;max-width:130px;line-height:1.6}
+  .guest-story .live-counter .small-icon{width:28px;height:28px}
+}
+</style>

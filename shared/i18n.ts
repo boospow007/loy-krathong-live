@@ -4,6 +4,8 @@ export function resolveLocale(value: unknown): Locale { return value === 'th' ? 
 
 // Source keys stay stable; guest names, wishes and custom event copy are never translated.
 export const english: Record<string, string> = {
+  'ตัวอย่างกระทงของคุณ': 'Your krathong preview',
+  'เลือกแล้วดูตัวอย่างได้ทันที': 'See your choices come together live.',
   'ขนาดโคมลอย': 'Sky lantern size',
   'ปรับขนาดโคมลอยทุกดวงบนฉาก': 'Resize every sky lantern in the scene.',
   'องค์ประกอบบนจอ Display': 'Display overlays',
