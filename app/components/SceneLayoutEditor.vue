@@ -48,7 +48,7 @@ watch(()=>props.settings.showMemorial,value=>{if(value){editing.value=false;expa
   <div ref="stage" class="preview-screen scene-editor-stage">
     <MemorialScreen v-show="settings.showMemorial"/>
     <RiverScene v-show="!settings.showMemorial" :settings="settings" :krathongs="krathongs" decorative/>
-    <div v-show="!settings.showMemorial&&settings.showHeading" class="mini-heading"><small>GALA DINNER · 25TH ASLOM</small><EventTitle as="h2" :text="eventText(settings.title,'title')"/><p>{{eventText(settings.subtitle,'subtitle')}}</p></div>
+    <div v-show="!settings.showMemorial&&settings.showHeading" class="mini-heading"><EventTitle as="h2" :text="eventText(settings.title,'title')"/><p>{{eventText(settings.subtitle,'subtitle')}}</p></div>
     <span v-if="!krathongs.length&&!settings.showMemorial&&!editing" class="demo-note">{{t('กระทงตัวอย่าง · ไม่แสดงบนจอจริง')}}</span>
     <div v-if="editing&&!settings.showMemorial" class="scene-editor-overlay">
       <template v-for="id in sceneObjectIds" :key="id">
