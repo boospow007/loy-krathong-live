@@ -4,12 +4,7 @@ const props=defineProps<{kind:SceneObjectId}>()
 const imageSrc = computed(() => {
   if (props.kind === 'moon') return '/scene/ayutthaya-v1/moon.webp'
   if (props.kind === 'prang' || props.kind === 'chedis') {
-    return `/scene/ayutthaya-v2/${props.kind}.webp`
-  }
-})
-const templeSrcset = computed(() => {
-  if (props.kind === 'prang' || props.kind === 'chedis') {
-    return `${imageSrc.value} 3840w, /scene/ayutthaya-v2/${props.kind}-8k.webp 7680w`
+    return `/scene/ayutthaya-v2/${props.kind}-8k.webp`
   }
 })
 const uid=`scene-${useId().replace(/[^a-zA-Z0-9-]/g,'')}`
@@ -21,8 +16,8 @@ const reflectionRipples=Array.from({length:56},(_,i)=>{
 </script>
 <template>
   <div class="scene-art" :class="`scene-art-${props.kind}`" aria-hidden="true">
-    <img v-if="imageSrc" :src="imageSrc" :srcset="templeSrcset" alt="" draggable="false"/>
-    <div v-if="templeSrcset" class="ruin-reflection"><img :src="imageSrc" :srcset="templeSrcset" alt="" draggable="false"/></div>
+    <img v-if="imageSrc" :src="imageSrc" alt="" draggable="false"/>
+    <div v-if="kind==='prang'||kind==='chedis'" class="ruin-reflection"><img :src="imageSrc" alt="" draggable="false"/></div>
     <svg v-else-if="kind==='treeline'" viewBox="0 0 1600 160" preserveAspectRatio="none">
       <path d="M0 121Q21 100 47 113Q66 86 94 104Q113 64 140 98Q165 75 184 104Q211 83 234 116Q260 104 285 125Q310 97 337 110Q371 87 399 110Q429 82 455 110Q480 99 505 124Q540 100 566 114Q598 90 620 112Q654 80 679 103Q709 79 734 104Q765 91 790 119Q820 101 849 124Q876 96 903 113Q931 89 959 107Q991 84 1018 114Q1044 91 1070 111Q1104 81 1133 106Q1164 77 1191 112Q1221 86 1250 104Q1280 79 1308 108Q1342 88 1366 110Q1398 85 1427 112Q1459 86 1484 110Q1511 77 1537 104Q1570 78 1600 114V160H0Z" fill="#102d32"/>
       <path d="M0 137Q58 113 119 132T238 135T357 129T476 139T595 132T714 138T833 134T952 137T1071 128T1190 136T1309 130T1428 135T1547 131L1600 137V160H0Z" fill="#091f29"/>
