@@ -22,6 +22,18 @@ Use case: historical-scene. Asset type: transparent background layer for a Thai 
 
 Use case: photorealistic-natural. Asset type: independently movable full-moon layer for a Thai Loy Krathong night event backdrop. One scientifically plausible full moon, complete circular disc perfectly front-facing, highly detailed lunar maria and subtle craters, soft warm ivory and pale antique-gold tones, natural photographic realism, smooth spherical lighting, evenly sharp clear outline. Centered with 10 percent transparent padding around the disc. Genuinely transparent alpha background. NO sky, stars, clouds, external halo, lens flare, scenery, water, reflections, text or border. Moon only; its outer silhouette is a perfect full circle. The website adds its own subtle glow.
 
+## Large-screen temple assets
+
+The 2026-11-11 temple layers in `public/scene/ayutthaya-v2/` were generated with the built-in ImageGen tool in transparent-background mode, using their corresponding v1 cutouts as references. The generated PNGs were resized to 3840 × 1656 for the prang and 3840 × 1615 for the chedis, then encoded as WebP with alpha. The same files supply the water reflections.
+
+**Prang prompt**
+
+Refine this existing transparent Ayutthaya temple cutout into a high-resolution photorealistic asset for a large LED display. Preserve the five Ayutthaya prang towers, especially the tall rounded central tower, the frontal camera angle, relative positions, wide framing, and warm amber uplighting. Reconstruct fine aged brick and stone detail. Keep the entire silhouette and continuous horizontal base fully in frame, tightly cropped, centered and bottom-aligned. Match the reference aspect ratio, target 3840×1656 or the largest supported resolution. Actual transparent alpha around all architecture and between towers. No sky, water, text, or new objects.
+
+**Chedis prompt**
+
+Refine this existing transparent Ayutthaya temple cutout into a high-resolution photorealistic asset for a large LED display. Preserve the three bell-shaped Ayutthaya chedis, pointed ringed spires, stairways and existing trees, the frontal camera angle, relative positions, wide framing, and warm amber uplighting. Reconstruct fine aged brick and stone detail. Keep the entire silhouette and continuous horizontal base fully in frame, tightly cropped, centered and bottom-aligned. Match the reference aspect ratio, target 3840×1615 or the largest supported resolution. Actual transparent alpha around all architecture and between towers. No sky, water, text, or new objects.
+
 ## Verification
 
 - Typecheck and 15 automated tests: scene bounds, independent defaults, immutable art ratios, API validation, MongoDB reload, legacy writes, SSE delivery and existing event features.
