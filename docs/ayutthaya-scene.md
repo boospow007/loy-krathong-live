@@ -26,6 +26,8 @@ Use case: photorealistic-natural. Asset type: independently movable full-moon la
 
 The 2026-11-11 temple layers in `public/scene/ayutthaya-v2/` were generated with the built-in ImageGen tool in transparent-background mode, using their corresponding v1 cutouts as references. The generated PNGs were resized to 3840 × 1656 for the prang and 3840 × 1615 for the chedis, then encoded as WebP with alpha. The same files supply the water reflections.
 
+The `-8k.webp` variants are exported directly from the same PNG masters at 7680 × 3312 and 7680 × 3230. The browser selects a resolution through `srcset` for both the temples and their reflections.
+
 **Prang prompt**
 
 Refine this existing transparent Ayutthaya temple cutout into a high-resolution photorealistic asset for a large LED display. Preserve the five Ayutthaya prang towers, especially the tall rounded central tower, the frontal camera angle, relative positions, wide framing, and warm amber uplighting. Reconstruct fine aged brick and stone detail. Keep the entire silhouette and continuous horizontal base fully in frame, tightly cropped, centered and bottom-aligned. Match the reference aspect ratio, target 3840×1656 or the largest supported resolution. Actual transparent alpha around all architecture and between towers. No sky, water, text, or new objects.
